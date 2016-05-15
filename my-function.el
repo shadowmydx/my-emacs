@@ -1,0 +1,11 @@
+(defun shadowmydx-double-pare ()
+  (interactive)
+  (insert "()")
+  (goto-char (- (point) 1)))
+(global-set-key (kbd "(") 'shadowmydx-double-pare)
+
+(defun shadowmydx-double-quote ()
+  (interactive)
+  (insert "\"\"")
+  (goto-char (- (point) 1)))
+(global-set-key (kbd "\"") 'shadowmydx-double-quote)
