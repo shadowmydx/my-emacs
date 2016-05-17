@@ -37,11 +37,9 @@
 
 
 (defun shadowmydx-change-pare-style (start-pos end-pos style)
-  (let ((inhibit-modification-hooks t))
-    (make-face 'temp-face)
-    (set-face-background 'temp-face style)
-    (put-text-property start-pos end-pos 'face 'temp-face)))
+   (put-text-property start-pos end-pos 'font-lock-face (list :background style)))
 ;(shadowmydx-change-pare-style 1519 1520 "cyan")
+;(list ':background shadowmydx-current-background)
 ;(shadowmydx-change-pare-style 1500 1512 shadowmydx-current-background)
 
 (setq shadowmydx-current-pos (point))
@@ -74,12 +72,12 @@
 		       (shadowmydx-change-pare-style left-pare-pos (+ 1 left-pare-pos) shadowmydx-align-pare-background)
 		       (shadowmydx-append-to shadowmydx-colored-point left-pare-pos)))))))))
 
-shadowmydx-colored-point
-(setq tmp-delete (shadowmydx-pop-item shadowmydx-colored-point))
-tmp-delete
-(shadowmydx-change-pare-style 2062 2063 shadowmydx-current-background)
+;shadowmydx-colored-point
+;(setq tmp-delete (shadowmydx-pop-item shadowmydx-colored-point))
+;tmp-delete
+;(shadowmydx-change-pare-style 2062 2063 shadowmydx-current-background)
 ;(if tmp-delete
 ;    (shadowmydx-change-pare-style tmp-delete (+ 1 tmp-delete) shadowmydx-current-background)
 ;  (+ 1 2))
-shadowmydx-current-background
-
+;shadowmydx-current-background
+(add-to-list 'post-command-hook #'shadowmydx-detect-if-a-pare)
