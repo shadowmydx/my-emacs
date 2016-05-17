@@ -59,25 +59,23 @@
 	(let ((delete-pos (shadowmydx-pop-item shadowmydx-colored-point)))
 	   (if delete-pos
 	       (shadowmydx-change-pare-style delete-pos (+ 1 delete-pos) shadowmydx-current-background)))
-	(cond ((equal "(" (buffer-substring (point) (+ 1 (point))))
-	       (let ((right-pare-pos (shadowmydx-search-pair-pare (point) 1 0 1)))
-		 (if (and (> right-pare-pos (point-min)) (< right-pare-pos (point-max)))
-		     (progn
-		       (shadowmydx-change-pare-style right-pare-pos (+ 1 right-pare-pos) shadowmydx-align-pare-background)
-		       (shadowmydx-append-to shadowmydx-colored-point right-pare-pos)))))
-	      ((equal ")" (buffer-substring (point) (+ 1 (point))))
-	       (let ((left-pare-pos (shadowmydx-search-pair-pare (point) 1 1 0)))
-		 (if (and (> left-pare-pos (point-min)) (< left-pare-pos (point-max)))
-		     (progn
-		       (shadowmydx-change-pare-style left-pare-pos (+ 1 left-pare-pos) shadowmydx-align-pare-background)
-		       (shadowmydx-append-to shadowmydx-colored-point left-pare-pos)))))))))
+	(if (< shadowmydx-current-pos (point-max))
+	    (cond ((equal "(" (buffer-substring (point) (+ 1 (point))))
+		   (let ((right-pare-pos (shadowmydx-search-pair-pare (point) 1 0 1)))
+		     (if (and (> right-pare-pos (point-min))
+			      (< right-pare-pos (point-max))
+			      (> right-pare-pos (+ 1 shadowmydx-current-pos)))
+			 (progn
+			   (shadowmydx-change-pare-style right-pare-pos (+ 1 right-pare-pos) shadowmydx-align-pare-background)
+			   (shadowmydx-append-to shadowmydx-colored-point right-pare-pos)))))
+		  ((equal ")" (buffer-substring (point) (+ 1 (point))))
+		   (let ((left-pare-pos (shadowmydx-search-pair-pare (point) 1 1 0)))
+		     (if (and
+			  (> left-pare-pos (point-min))
+			  (< left-pare-pos (point-max))
+			  (< left-pare-pos (- shadowmydx-current-pos 1)))
+			 (progn
+			   (shadowmydx-change-pare-style left-pare-pos (+ 1 left-pare-pos) shadowmydx-align-pare-background)
+			   (shadowmydx-append-to shadowmydx-colored-point left-pare-pos))))))))))
 
-;shadowmydx-colored-point
-;(setq tmp-delete (shadowmydx-pop-item shadowmydx-colored-point))
-;tmp-delete
-;(shadowmydx-change-pare-style 2062 2063 shadowmydx-current-background)
-;(if tmp-delete
-;    (shadowmydx-change-pare-style tmp-delete (+ 1 tmp-delete) shadowmydx-current-background)
-;  (+ 1 2))
-;shadowmydx-current-background
 (add-to-list 'post-command-hook #'shadowmydx-detect-if-a-pare)
