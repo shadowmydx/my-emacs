@@ -37,7 +37,9 @@
 	  ((equal ")" (buffer-substring cur-pos (+ 1 cur-pos)))
 	   (shadowmydx-move move-2 start-count)))
     (shadowmydx-move move-1 cur-pos))
-  (shadowmydx-move move-2 cur-pos))(point)
+  (if (= start-count 0)
+      (shadowmydx-move move-2 cur-pos)
+    -1))
 
 ;(shadowmydx-search-pair-pare 902 1 0 1)
 ;(buffer-substring 902 909)
