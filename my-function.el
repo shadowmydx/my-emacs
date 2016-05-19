@@ -1,14 +1,22 @@
 (defun shadowmydx-double-pare ()
   (interactive)
-  (insert "()")
-  (goto-char (- (point) 1)))
-(global-set-key (kbd "(") 'shadowmydx-double-pare)
+  (let ((pre-point (- (point) 1)))
+    (if (equal "(" (buffer-substring pre-point (+ 1 pre-point)))
+	(progn
+	  (insert ")")
+	  (goto-char (- (point) 1))))))
+;(global-set-key (kbd "(") 'shadowmydx-double-pare)
 
 (defun shadowmydx-double-quote ()
   (interactive)
-  (insert "\"\"")
-  (goto-char (- (point) 1)))
-(global-set-key (kbd "\"") 'shadowmydx-double-quote)
+  (let ((pre-point (- (point) 1)))
+    (if (equal "\"" (buffer-substring pre-point (+ 1 pre-point)))
+	(progn
+	  (insert "\"")
+	  (goto-char (- (point) 1))))))
+;(global-set-key (kbd "\"") 'shadowmydx-double-quote)
+(add-to-list 'post-self-insert-hook #'shadowmydx-double-pare)
+(add-to-list 'post-self-insert-hook #'shadowmydx-double-quote)
 
 
 ;; This buffer is for notes you don't want to save, and for Lisp evaluation.
@@ -74,7 +82,7 @@
 	      (cond ((equal "(" (buffer-substring (point) (+ 1 (point))))
 		     (let ((right-pare-pos (shadowmydx-search-pair-pare (point) 1 0 1)))
 		       (if (and
-			    (> right-pare-pos (point-min))
+			    (>= right-pare-pos (point-min))
 			    (< right-pare-pos (point-max))
 			    (> right-pare-pos (+ 1 shadowmydx-current-pos)))
 			   (progn
@@ -83,7 +91,7 @@
 		    ((equal ")" (buffer-substring (point) (+ 1 (point))))
 		     (let ((left-pare-pos (shadowmydx-search-pair-pare (point) 1 1 0)))
 		       (if (and
-			    (> left-pare-pos (point-min))
+			    (>= left-pare-pos (point-min))
 			    (< left-pare-pos (point-max))
 			    (< left-pare-pos (- shadowmydx-current-pos 1)))
 			   (progn
