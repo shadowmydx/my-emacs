@@ -5,7 +5,6 @@
 	(progn
 	  (insert ")")
 	  (goto-char (- (point) 1))))))
-;(global-set-key (kbd "(") 'shadowmydx-double-pare)
 
 (defun shadowmydx-double-quote ()
   (interactive)
@@ -14,7 +13,6 @@
 	(progn
 	  (insert "\"")
 	  (goto-char (- (point) 1))))))
-;(global-set-key (kbd "\"") 'shadowmydx-double-quote)
 (add-to-list 'post-self-insert-hook #'shadowmydx-double-pare)
 (add-to-list 'post-self-insert-hook #'shadowmydx-double-quote)
 
