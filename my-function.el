@@ -77,7 +77,8 @@
 	  (let ((delete-pos (shadowmydx-pop-item shadowmydx-colored-point)))
 	    (if delete-pos
 		(shadowmydx-change-pare-style delete-pos (+ 1 delete-pos) shadowmydx-current-background)))
-	  (if (and (<= shadowmydx-current-pos (point-max))
+	  (if (and (not (use-region-p))
+		   (<= shadowmydx-current-pos (point-max))
 		   (>= shadowmydx-current-pos (point-min)))
 	      (cond ((equal "(" (buffer-substring (point) (+ 1 (point))))
 		     (let ((right-pare-pos (shadowmydx-search-pair-pare (point) 1 0 1)))
